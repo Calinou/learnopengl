@@ -63,7 +63,6 @@ int32_t main() {
   char infoLog[512];
 
   // Check for successful vertex shader compilation
-
   glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 
   if (!success) {
@@ -77,7 +76,6 @@ int32_t main() {
   glCompileShader(fragmentShader);
 
   // Check for successful fragment shader compilation
-
   glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 
   if (!success) {
@@ -91,36 +89,47 @@ int32_t main() {
   glAttachShader(shaderProgram, fragmentShader);
 
   // Check for successful shader program compilation
-
   glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 
   if (!success) {
     glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
   }
 
-  // Link the shader program
+  // Link and use the shader program
   glLinkProgram(shaderProgram);
+  glUseProgram(shaderProgram);
 
   // Delete shaders as they are no longer needed at this stage
   glDeleteShader(vertexShader);
   glDeleteShader(fragmentShader);
 
-  // The triangle's vertice coordinates
+  // The square's vertice coordinates
   float vertices[] = {
-      -0.5f, -0.5f, 0.0f,
-      0.5f, -0.5f, 0.0f,
-      0.0f, 0.5f, 0.0f,
+      -0.5f,  0.5f, 0.0f, // Top-left corner
+       0.5f,  0.5f, 0.0f, // Top-right corner
+      -0.5f, -0.5f, 0.0f, // Bottom-left corner
+       0.5f, -0.5f, 0.0f, // Bottom-right corner
   };
 
-  // Initialize the VAO and VBO
-  uint32_t vao, vbo;
+  // The order to draw vertices in
+  uint32_t indices[] = {
+      0, 1, 2, // First triangle
+      3, 2, 1, // Second triangle
+  };
+
+  // Initialize buffers (vertex array, vertex buffer, element buffer)
+  uint32_t vao, vbo, ebo;
   glGenVertexArrays(1, &vao);
-  glGenBuffers(1, &vbo);
   glBindVertexArray(vao);
+  glGenBuffers(1, &vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glGenBuffers(1, &ebo);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
   // Copy vertex data into the VBO
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+  // Copy index data into the EBO
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
   // Set vertex attribute parameters
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) nullptr);
@@ -133,10 +142,8 @@ int32_t main() {
     glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // Draw the triangle
-    glUseProgram(shaderProgram);
-    glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    // Draw the rectangle
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
