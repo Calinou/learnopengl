@@ -120,10 +120,12 @@ int32_t main() {
   // Initialize buffers (vertex array, vertex buffer, element buffer)
   uint32_t vao, vbo, ebo;
   glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
   glGenBuffers(1, &vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glGenBuffers(1, &ebo);
+
+  // Bind buffers
+  glBindVertexArray(vao);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
   // Copy vertex data into the VBO
@@ -152,6 +154,7 @@ int32_t main() {
   // Clean up
   glDeleteVertexArrays(1, &vao);
   glDeleteBuffers(1, &vbo);
+  glDeleteBuffers(1, &ebo);
   glfwTerminate();
 
   return 0;
