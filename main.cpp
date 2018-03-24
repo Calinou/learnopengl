@@ -2,52 +2,150 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+const char *vertexShaderSource =
+    "#version 330 core\n"
+    "layout (location = 0) in vec3 aPos;\n"
+    "\n"
+    "void main() {\n"
+    "  gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "}\n";
+
+const char *fragmentShaderSource =
+    "#version 330 core\n"
+    "out vec4 fragColor;\n"
+    "\n"
+    "void main() {\n"
+    "  fragColor = vec4(0.5f, 1.0f, 0.25f, 1.0f);\n"
+    "}\n";
+
 void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
-    glViewport(0, 0, width, height);
+  glViewport(0, 0, width, height);
 }
 
 void processInput(GLFWwindow* window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, true);
-    }
+  if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+    glfwSetWindowShouldClose(window, true);
+  }
 }
 
-int main() {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+int32_t main() {
+  glfwInit();
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
-    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+  GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
+  glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
-    if (window == nullptr) {
-        std::cout << "Failed to create GLFW window." << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-
-    // GLFW doesn't mark the context as current automatically
-    // <https://stackoverflow.com/questions/48650497/glad-failing-to-initialize>
-    glfwMakeContextCurrent(window);
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cout << "Failed to initialize GLAD." << std::endl;
-        return -1;
-    }
-
-    glViewport(0, 0, 800, 600);
-
-    while (!glfwWindowShouldClose(window)) {
-        processInput(window);
-
-        glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-
+  if (window == nullptr) {
+    std::cout << "Failed to create GLFW window." << std::endl;
     glfwTerminate();
-    return 0;
+    return -1;
+  }
+
+  // GLFW doesn't mark the context as current automatically
+  // <https://stackoverflow.com/questions/48650497/glad-failing-to-initialize>
+  glfwMakeContextCurrent(window);
+
+  if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+    std::cout << "Failed to initialize GLAD." << std::endl;
+    return -1;
+  }
+
+  glViewport(0, 0, 800, 600);
+
+  // Compile the vertex shader
+  uint32_t vertexShader = glCreateShader(GL_VERTEX_SHADER);
+  glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
+  glCompileShader(vertexShader);
+
+  int32_t success;
+  char infoLog[512];
+
+  // Check for successful vertex shader compilation
+
+  glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+
+  if (!success) {
+    glGetShaderInfoLog(vertexShader, 512, nullptr, infoLog);
+    std::cout << "Failed to compile the vertex shader.\n" << infoLog << std::endl;
+  }
+
+  // Compile the fragment shader
+  uint32_t fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+  glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
+  glCompileShader(fragmentShader);
+
+  // Check for successful fragment shader compilation
+
+  glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+
+  if (!success) {
+    glGetShaderInfoLog(vertexShader, 512, nullptr, infoLog);
+    std::cout << "Failed to compile the fragment shader.\n" << infoLog << std::endl;
+  }
+
+  // Create the shader program and attach shaders to it
+  uint32_t shaderProgram = glCreateProgram();
+  glAttachShader(shaderProgram, vertexShader);
+  glAttachShader(shaderProgram, fragmentShader);
+
+  // Check for successful shader program compilation
+
+  glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+
+  if (!success) {
+    glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
+  }
+
+  // Link the shader program
+  glLinkProgram(shaderProgram);
+
+  // Delete shaders as they are no longer needed at this stage
+  glDeleteShader(vertexShader);
+  glDeleteShader(fragmentShader);
+
+  // The triangle's vertice coordinates
+  float vertices[] = {
+      -0.5f, -0.5f, 0.0f,
+      0.5f, -0.5f, 0.0f,
+      0.0f, 0.5f, 0.0f,
+  };
+
+  // Initialize the VAO and VBO
+  uint32_t vao, vbo;
+  glGenVertexArrays(1, &vao);
+  glGenBuffers(1, &vbo);
+  glBindVertexArray(vao);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+  // Copy vertex data into the VBO
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+  // Set vertex attribute parameters
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) nullptr);
+  glEnableVertexAttribArray(0);
+
+  while (!glfwWindowShouldClose(window)) {
+    processInput(window);
+
+    // Clear the viewport with a constant color
+    glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Draw the triangle
+    glUseProgram(shaderProgram);
+    glBindVertexArray(vao);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+  }
+
+  // Clean up
+  glDeleteVertexArrays(1, &vao);
+  glDeleteBuffers(1, &vbo);
+  glfwTerminate();
+
+  return 0;
 }
