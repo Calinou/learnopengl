@@ -10,17 +10,17 @@ include_directories(include)
 include_directories(${GLFW_INCLUDE_DIRS})
 
 # Hello Rectangle
-add_executable(hello_rectangle hello_rectangle.cpp)
-target_link_libraries(hello_rectangle ${GLFW_LIBRARIES} glad dl)
+add_executable(HelloRectangle src/HelloRectangle.cpp)
+target_link_libraries(HelloRectangle ${GLFW_LIBRARIES} glad dl)
 
 # Hello Rectangle (2 colors)
-add_executable(hello_rectangle_2 hello_rectangle_2.cpp)
-target_link_libraries(hello_rectangle_2 ${GLFW_LIBRARIES} glad dl)
+add_executable(HelloRectangle2 src/HelloRectangle2.cpp)
+target_link_libraries(HelloRectangle2 ${GLFW_LIBRARIES} glad dl)
 
 # Shader Uniforms
-add_executable(shaders_uniforms shaders_uniforms.cpp)
-target_link_libraries(shaders_uniforms ${GLFW_LIBRARIES} glad dl)
+add_executable(ShaderUniforms src/ShaderUniforms.cpp)
+target_link_libraries(ShaderUniforms ${GLFW_LIBRARIES} glad dl)
 
 # Shader VAOs
-add_executable(shaders_vao shaders_vao.cpp)
-target_link_libraries(shaders_vao ${GLFW_LIBRARIES} glad dl)
+add_executable(ShadersVAO src/ShadersVAO.cpp src/Shader.hpp)
+target_link_libraries(ShadersVAO ${GLFW_LIBRARIES} glad dl)
