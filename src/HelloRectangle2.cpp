@@ -55,7 +55,7 @@ int32_t main() {
   // <https://stackoverflow.com/questions/48650497/glad-failing-to-initialize>
   glfwMakeContextCurrent(window);
 
-  if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
     std::cout << "Failed to initialize GLAD." << std::endl;
     return -1;
   }
@@ -132,7 +132,7 @@ int32_t main() {
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[0]);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices[0]), &indices[0][0], GL_STATIC_DRAW);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) nullptr);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)nullptr);
   glEnableVertexAttribArray(0);
   // No need to unbind the VAO since we bind to another VAO the next few lines
 
@@ -142,7 +142,7 @@ int32_t main() {
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[1]);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices[1]), &indices[1][0], GL_STATIC_DRAW);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) nullptr);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)nullptr);
   glEnableVertexAttribArray(0);
 
   while (!glfwWindowShouldClose(window)) {

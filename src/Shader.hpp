@@ -92,7 +92,7 @@ public:
   };
 
   void setBool(const std::string &name, bool value) const {
-    glUniform1i(glGetUniformLocation(this->id, name.c_str()), (int32_t) value);
+    glUniform1i(glGetUniformLocation(this->id, name.c_str()), (int32_t)value);
   };
 
   void setInt(const std::string &name, int32_t value) const {

@@ -47,7 +47,7 @@ int32_t main() {
   // <https://stackoverflow.com/questions/48650497/glad-failing-to-initialize>
   glfwMakeContextCurrent(window);
 
-  if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
     std::cout << "Failed to initialize GLAD." << std::endl;
     return -1;
   }
@@ -134,7 +134,7 @@ int32_t main() {
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
   // Set vertex attribute parameters
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) nullptr);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)nullptr);
   glEnableVertexAttribArray(0);
 
   while (!glfwWindowShouldClose(window)) {

@@ -33,7 +33,7 @@ int32_t main() {
   // <https://stackoverflow.com/questions/48650497/glad-failing-to-initialize>
   glfwMakeContextCurrent(window);
 
-  if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
     std::cout << "Failed to initialize GLAD." << std::endl;
     return -1;
   }
@@ -78,7 +78,7 @@ int32_t main() {
 
   // Set vertex attribute parameters
   // Position attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) nullptr);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)nullptr);
   glEnableVertexAttribArray(0);
   // Color attribute
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -93,6 +93,7 @@ int32_t main() {
 
     // Draw the rectangle, setting a new color every frame
     shaderProgram.use();
+    shaderProgram.setFloat("offset", 0.2);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
     glfwSwapBuffers(window);
