@@ -24,3 +24,7 @@ target_link_libraries(ShaderUniforms ${GLFW_LIBRARIES} glad dl)
 # Shader VAOs
 add_executable(ShadersVAO src/ShadersVAO.cpp src/Shader.hpp)
 target_link_libraries(ShadersVAO ${GLFW_LIBRARIES} glad dl)
+
+# Textures
+add_executable(Textures src/Textures.cpp src/Shader.hpp)
+target_link_libraries(Textures ${GLFW_LIBRARIES} glad dl)
