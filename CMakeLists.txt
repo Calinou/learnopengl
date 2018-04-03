@@ -34,3 +34,7 @@ target_link_libraries(Textures ${LIBRARIES})
 # Transforms
 add_executable(Transforms src/Transforms.cpp src/Shader.hpp)
 target_link_libraries(Transforms ${LIBRARIES})
+
+# Coordinate Systems
+add_executable(CoordinateSystems src/CoordinateSystems.cpp src/Shader.hpp)
+target_link_libraries(CoordinateSystems ${LIBRARIES})
