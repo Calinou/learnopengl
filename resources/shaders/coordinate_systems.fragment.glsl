@@ -1,6 +1,5 @@
 #version 330 core
 
-in vec3 ourColor;
 in vec2 texCoord;
 
 out vec4 fragColor;
@@ -15,5 +14,5 @@ void main() {
         texture(textureBase, texCoord),
         texture(textureOverlay, texCoord),
         vec4(texture(textureOverlay, texCoord)).a
-      ) / vec4(ourColor, 1.0) * 0.5;
+      );
 }

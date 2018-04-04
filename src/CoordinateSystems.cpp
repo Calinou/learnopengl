@@ -30,7 +30,7 @@ int32_t main() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  GLFWwindow *window = glfwCreateWindow(screenWidth, screenHeight, "Transforms", nullptr, nullptr);
+  GLFWwindow *window = glfwCreateWindow(screenWidth, screenHeight, "Coordinate Systems", nullptr, nullptr);
   glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
   if (window == nullptr) {
@@ -55,19 +55,63 @@ int32_t main() {
       "../resources/shaders/coordinate_systems.fragment.glsl"
   );
 
-  // The square's vertice coordinates, colors and texture coordinates
+  // The cube's vertice coordinates
   float vertices[] = {
-      // Positions        // Colors       // Texture coordinates
-      -0.5f, 0.5f, 0.0f, 1.0f, 0.3f, 0.3f, 0.0f, 1.0f,  // Top-left corner
-      0.5f, 0.5f, 0.0f, 0.3f, 1.0f, 0.3f, 1.0f, 1.0f,   // Top-right corner
-      -0.5f, -0.5f, 0.0f, 0.3f, 0.3f, 1.0f, 0.0f, 0.0f, // Bottom-left corner
-      0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,  // Bottom-right corner
+      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+      0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+      0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+      0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+      -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+      -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+      -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+      -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+      0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+      0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+      0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+      0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+      0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+      0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+      0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+      0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+      -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
   };
 
-  // The order to draw vertices in
-  uint32_t indices[] = {
-      0, 1, 2, // First triangle
-      3, 2, 1, // Second triangle
+  // The cube positions
+  glm::vec3 cubePositions[] = {
+      glm::vec3(-2.0f, 0.0f, -3.0f),
+      glm::vec3(2.0f, 0.0f, -3.0f),
+      glm::vec3(2.0f, -2.0f, 3.0f),
+      glm::vec3(2.0f, -2.5f, -3.0f),
+      glm::vec3(-2.0f, 3.0f, -4.0f),
+      glm::vec3(-1.0f, 1.0f, -5.0f),
+      glm::vec3(1.0f, -1.0f, -6.0f),
+      glm::vec3(-2.0f, 3.5f, -7.0f),
+      glm::vec3(-2.0f, -1.0f, -10.0f),
+      glm::vec3(0.0f, 0.0f, -1.0f),
   };
 
   stbi_set_flip_vertically_on_load(true);
@@ -91,32 +135,27 @@ int32_t main() {
       0
   );
 
-  // Initialize buffers (vertex array, vertex buffer, element buffer)
-  uint32_t vao, vbo, ebo;
+  glEnable(GL_DEPTH_TEST);
+
+  // Initialize buffers (vertex array, vertex buffer)
+  uint32_t vao, vbo;
   glGenVertexArrays(1, &vao);
-  glGenBuffers(1, &vbo);
-  glGenBuffers(1, &ebo);
+  glGenBuffers(1, &vbo);;
 
   // Bind buffers
   glBindVertexArray(vao);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
   // Copy vertex data into the VBO
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-  // Copy index data into the EBO
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
   // Set vertex attribute parameters
   // Position attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) nullptr);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) nullptr);
   glEnableVertexAttribArray(0);
-  // Color attribute
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) (3 * sizeof(float)));
-  glEnableVertexAttribArray(1);
   // Texture coordinates attribute
-  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) (6 * sizeof(float)));
-  glEnableVertexAttribArray(2);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
+  glEnableVertexAttribArray(1);
 
   // Generate the OpenGL textures
   uint32_t textureBase, textureOverlay;
@@ -126,7 +165,7 @@ int32_t main() {
   glBindTexture(GL_TEXTURE_2D, textureBase);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
   if (textureBaseData) {
@@ -141,6 +180,7 @@ int32_t main() {
         GL_UNSIGNED_BYTE,  // Source image RGB values are stored as `char`s (bytes)
         textureBaseData
     );
+    glGenerateMipmap(GL_TEXTURE_2D);
   } else {
     std::cout << "ERROR: Failed to load a texture." << std::endl;
   }
@@ -150,7 +190,7 @@ int32_t main() {
   glBindTexture(GL_TEXTURE_2D, textureOverlay);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
   // Overlay texture has transparency, so it needs to be GL_RGBA
@@ -166,6 +206,7 @@ int32_t main() {
         GL_UNSIGNED_BYTE,     // Source image RGB values are stored as `char`s (bytes)
         textureOverlayData
     );
+    glGenerateMipmap(GL_TEXTURE_2D);
   } else {
     std::cout << "ERROR: Failed to load a texture." << std::endl;
   }
@@ -178,28 +219,36 @@ int32_t main() {
   // Set the texture unit that should be sampled as the overlay texture
   shaderProgram.setInt("textureOverlay", 1);
 
-  // The transformation matrices (has to be updated every frame here)
-  glm::mat4 model, view, projection;
-  model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-  view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-  projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
-
   while (!glfwWindowShouldClose(window)) {
     processInput(window);
 
     // Clear the viewport with a constant color
     glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    int32_t modelLoc = glGetUniformLocation(shaderProgram.id, "model");
+    // Set up view and projection matrices
+    glm::mat4 view, projection;
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
+
     int32_t viewLoc = glGetUniformLocation(shaderProgram.id, "view");
     int32_t projectionLoc = glGetUniformLocation(shaderProgram.id, "projection");
-
-    // Draw the transformed scene
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+    // Draw the 10 cubes
+    // Model matrices are defined per-cube
+    for (uint32_t i = 0; i < 10; i++) {
+      glm::mat4 model;
+      model = glm::translate(model, cubePositions[i]);
+      float angle = 20.0f * i;
+      model = glm::rotate(model, glm::radians(angle) + (float)glfwGetTime() * glm::radians(30.0f), glm::vec3(1.0f, 0.3f, 0.5f));
+
+      int32_t modelLoc = glGetUniformLocation(shaderProgram.id, "model");
+      // Draw the transformed scene
+      glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+      glDrawArrays(GL_TRIANGLES, 0, 36);
+    }
 
     glfwSwapBuffers(window);
     glfwPollEvents();
@@ -208,7 +257,6 @@ int32_t main() {
   // Clean up
   glDeleteVertexArrays(1, &vao);
   glDeleteBuffers(1, &vbo);
-  glDeleteBuffers(1, &ebo);
   glfwTerminate();
 
   return 0;
