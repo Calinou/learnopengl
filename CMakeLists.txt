@@ -38,3 +38,7 @@ target_link_libraries(Transforms ${LIBRARIES})
 # Coordinate Systems
 add_executable(CoordinateSystems src/CoordinateSystems.cpp src/Shader.hpp)
 target_link_libraries(CoordinateSystems ${LIBRARIES})
+
+# Camera
+add_executable(Camera src/Camera.cpp src/Shader.hpp)
+target_link_libraries(Camera ${LIBRARIES})
