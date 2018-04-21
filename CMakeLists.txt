@@ -42,3 +42,7 @@ target_link_libraries(CoordinateSystems ${LIBRARIES})
 # Camera
 add_executable(Camera src/Camera.cpp src/Shader.hpp)
 target_link_libraries(Camera ${LIBRARIES})
+
+# Lights (Colors)
+add_executable(LightColors src/LightColors src/Shader.hpp)
+target_link_libraries(LightColors ${LIBRARIES})
