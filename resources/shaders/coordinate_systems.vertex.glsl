@@ -11,6 +11,6 @@ uniform mat4 projection;
 
 void main() {
   // NOTE: The multiplication should be read from right to left
-  gl_Position = projection * view * model * vec4(aPosition, 1.0f);
+  gl_Position = projection * view * model * vec4(aPosition, 1.0);
   texCoord = aTexCoord;
 }
