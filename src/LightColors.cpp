@@ -131,7 +131,8 @@ int32_t main() {
   glGenVertexArrays(1, &lightVao);
   glBindVertexArray(lightVao);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) nullptr);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) nullptr);
+  glEnableVertexAttribArray(0);
 
   glm::mat4 projection;
   projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
