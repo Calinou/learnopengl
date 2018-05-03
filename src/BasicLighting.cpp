@@ -7,8 +7,12 @@
 #include <cmath>
 #include "Shader.hpp"
 
+// Stored globally so it can be modified in framebufferSizeCallback() and used in main()
+glm::mat4 projection;
+
 void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
   glViewport(0, 0, width, height);
+  projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 }
 
 void processInput(GLFWwindow *window) {
@@ -18,8 +22,9 @@ void processInput(GLFWwindow *window) {
 }
 
 int32_t main() {
-  constexpr int32_t screenWidth = 800;
-  constexpr int32_t screenHeight = 800;
+  // The initial window size
+  constexpr int32_t screenWidth = 1280;
+  constexpr int32_t screenHeight = 720;
 
   glfwInit();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -134,7 +139,7 @@ int32_t main() {
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *) nullptr);
   glEnableVertexAttribArray(0);
 
-  glm::mat4 projection;
+  // Set the projection matrix here so it's defined on application start too
   projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
 
   while (!glfwWindowShouldClose(window)) {
@@ -145,7 +150,7 @@ int32_t main() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Make the camera rotate in a circle around the center point
-    float radius = 10.0f;
+    float radius = 3.0f;
     double cameraX = sin(glfwGetTime()) * radius;
     double cameraZ = cos(glfwGetTime()) * radius;
     glm::vec3 cameraPosition = glm::vec3(cameraX, 0.0f, cameraZ);
@@ -158,12 +163,13 @@ int32_t main() {
     // Draw the container cube
     glm::mat4 model;
     // The container cube's position (bobbing up and down)
-    glm::vec3 containerPos = glm::vec3(0.0f, sin(glfwGetTime()) * 1.0f, 0.0f);
+    glm::vec3 containerPos = glm::vec3(0.0f, sin(glfwGetTime()) * 0.5f - 0.25f, 0.0f);
     model = glm::translate(model, containerPos);
     containerShader.use();
     containerShader.setMat4("model", model);
     containerShader.setMat4("view", view);
     containerShader.setMat4("projection", projection);
+    containerShader.setVec3("viewPos", cameraPosition);
     containerShader.setVec3("objectColor", 1.0f, 1.0f, 0.4f);
     containerShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
     containerShader.setVec3("lightPos", lightPos);
