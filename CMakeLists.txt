@@ -50,3 +50,7 @@ target_link_libraries(LightColors ${LIBRARIES})
 # Basic Lighting
 add_executable(BasicLighting src/BasicLighting.cpp src/Shader.hpp)
 target_link_libraries(BasicLighting ${LIBRARIES})
+
+# Basic Lighting (Gouraud shading)
+add_executable(BasicLightingGouraud src/BasicLightingGouraud.cpp src/Shader.hpp)
+target_link_libraries(BasicLightingGouraud ${LIBRARIES})

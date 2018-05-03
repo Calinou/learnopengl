@@ -34,7 +34,7 @@ int32_t main() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  GLFWwindow *window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Basic Lighting (Phong shading)", nullptr, nullptr);
+  GLFWwindow *window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Basic Lighting (Gouraud shading)", nullptr, nullptr);
   glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
   if (window == nullptr) {
@@ -55,8 +55,8 @@ int32_t main() {
   glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
   Shader containerShader = Shader(
-      "../resources/shaders/basic_lighting.vertex.glsl",
-      "../resources/shaders/basic_lighting.fragment.glsl"
+      "../resources/shaders/basic_lighting_gouraud.vertex.glsl",
+      "../resources/shaders/basic_lighting_gouraud.fragment.glsl"
   );
 
   Shader lightShader = Shader(
@@ -173,7 +173,7 @@ int32_t main() {
     containerShader.setMat4("view", view);
     containerShader.setMat4("projection", projection);
     containerShader.setVec3("viewPos", cameraPosition);
-    containerShader.setVec3("objectColor", 1.0f, 1.0f, 0.4f);
+    containerShader.setVec3("objectColor", 0.4f, 0.7f, 1.0f);
     containerShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
     containerShader.setVec3("lightPos", lightPos);
     glBindVertexArray(vao);
