@@ -54,3 +54,7 @@ target_link_libraries(BasicLighting ${LIBRARIES})
 # Basic Lighting (Gouraud shading)
 add_executable(BasicLightingGouraud src/BasicLightingGouraud.cpp src/Shader.hpp)
 target_link_libraries(BasicLightingGouraud ${LIBRARIES})
+
+# Materials
+add_executable(Materials src/Materials.cpp src/Shader.hpp)
+target_link_libraries(Materials ${LIBRARIES})
