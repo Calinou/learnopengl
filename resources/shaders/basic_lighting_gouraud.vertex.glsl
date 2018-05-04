@@ -29,7 +29,7 @@ void main() {
   vec3 norm = normalize(normal);
   vec3 lightDir = normalize(lightPos - vertPos);
   float diff = max(dot(norm, lightDir), 0.0);
-  vec3 diffuse = diff * lightColor;
+  vec3 diffuse = objectColor * diff * lightColor;
 
   // Specular lighting
   float specularStrength = 0.5;
@@ -38,7 +38,7 @@ void main() {
   float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
   vec3 specular = specularStrength * spec * lightColor;
 
-  vertColor = (ambient + diffuse + specular) * objectColor;
+  vertColor = ambient + diffuse + specular;
 
   gl_Position = projection * view * vec4(vertPos, 1.0);
 }
