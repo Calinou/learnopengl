@@ -58,3 +58,7 @@ target_link_libraries(BasicLightingGouraud ${LIBRARIES})
 # Materials
 add_executable(Materials src/Materials.cpp src/Shader.hpp)
 target_link_libraries(Materials ${LIBRARIES})
+
+# Lighting Maps
+add_executable(LightingMaps src/LightingMaps.cpp src/Shader.hpp)
+target_link_libraries(LightingMaps ${LIBRARIES})
