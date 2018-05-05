@@ -13,7 +13,7 @@ class Shader {
 public:
   uint32_t id;
 
-  Shader(const GLchar* vertexPath, const GLchar* fragmentPath) {
+  Shader(const GLchar *vertexPath, const GLchar *fragmentPath) {
     std::string vertexCode;
     std::string fragmentCode;
     std::ifstream vShaderFile;
@@ -39,8 +39,8 @@ public:
       std::cout << "ERROR: Failed reading a shader file." << std::endl;
     }
 
-    const char* vShaderCode = vertexCode.c_str();
-    const char* fShaderCode = fragmentCode.c_str();
+    const char *vShaderCode = vertexCode.c_str();
+    const char *fShaderCode = fragmentCode.c_str();
     uint32_t vertexShader, fragmentShader;
     int32_t success;
     char infoLog[512];
@@ -95,7 +95,7 @@ public:
   };
 
   void setBool(const std::string &name, bool value) const {
-    glUniform1i(glGetUniformLocation(this->id, name.c_str()), (int32_t)value);
+    glUniform1i(glGetUniformLocation(this->id, name.c_str()), (int32_t) value);
   };
 
   void setInt(const std::string &name, int32_t value) const {

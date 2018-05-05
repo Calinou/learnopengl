@@ -4,11 +4,11 @@
 #include <cmath>
 #include "Shader.hpp"
 
-void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
   glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow* window) {
+void processInput(GLFWwindow *window) {
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
     glfwSetWindowShouldClose(window, true);
   }
@@ -20,7 +20,7 @@ int32_t main() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  GLFWwindow* window = glfwCreateWindow(800, 600, "Shader VAOs", nullptr, nullptr);
+  GLFWwindow *window = glfwCreateWindow(800, 600, "Shader VAOs", nullptr, nullptr);
   glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
   if (window == nullptr) {
@@ -33,7 +33,7 @@ int32_t main() {
   // <https://stackoverflow.com/questions/48650497/glad-failing-to-initialize>
   glfwMakeContextCurrent(window);
 
-  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+  if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
     std::cout << "Failed to initialize GLAD." << std::endl;
     return -1;
   }
@@ -48,8 +48,8 @@ int32_t main() {
   // The square's vertice coordinates and colors
   float vertices[] = {
       // Positions        // Colors
-      -0.5f,  0.5f, 0.0f, 1.0f, 0.3f, 0.3f, // Top-left corner
-      0.5f,  0.5f, 0.0f, 0.3f, 1.0f, 0.3f, // Top-right corner
+      -0.5f, 0.5f, 0.0f, 1.0f, 0.3f, 0.3f, // Top-left corner
+      0.5f, 0.5f, 0.0f, 0.3f, 1.0f, 0.3f, // Top-right corner
       -0.5f, -0.5f, 0.0f, 0.3f, 0.3f, 1.0f, // Bottom-left corner
       0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, // Bottom-right corner
   };
@@ -78,10 +78,10 @@ int32_t main() {
 
   // Set vertex attribute parameters
   // Position attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)nullptr);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *) nullptr);
   glEnableVertexAttribArray(0);
   // Color attribute
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *) (3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
   while (!glfwWindowShouldClose(window)) {

@@ -185,10 +185,10 @@ int32_t main() {
     // The transformation matrices (has to be updated every frame here)
     glm::mat4 translation;
     translation = glm::translate(translation, glm::vec3(0.5f, -0.5f, 0.0f));
-    translation = glm::rotate(translation, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+    translation = glm::rotate(translation, (float) glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 
     glm::mat4 translation2;
-    double scaleFactor = sin(glfwGetTime())/2.5 + 0.6f;
+    double scaleFactor = sin(glfwGetTime()) / 2.5 + 0.6f;
     translation2 = glm::translate(translation2, glm::vec3(-0.5f, 0.5f, 0.0f));
     translation2 = glm::scale(translation2, glm::vec3(scaleFactor, scaleFactor, 1.0f));
 

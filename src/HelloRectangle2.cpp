@@ -26,11 +26,11 @@ const char *fragmentShaderBottomSource =
     "  fragColor = vec4(0.5f, 0.75f, 1.0f, 1.0f);\n"
     "}\n";
 
-void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
   glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow* window) {
+void processInput(GLFWwindow *window) {
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
     glfwSetWindowShouldClose(window, true);
   }
@@ -42,7 +42,7 @@ int32_t main() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  GLFWwindow* window = glfwCreateWindow(800, 600, "Hello Rectangle 2", nullptr, nullptr);
+  GLFWwindow *window = glfwCreateWindow(800, 600, "Hello Rectangle 2", nullptr, nullptr);
   glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
   if (window == nullptr) {
@@ -55,7 +55,7 @@ int32_t main() {
   // <https://stackoverflow.com/questions/48650497/glad-failing-to-initialize>
   glfwMakeContextCurrent(window);
 
-  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+  if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
     std::cout << "Failed to initialize GLAD." << std::endl;
     return -1;
   }
@@ -107,10 +107,10 @@ int32_t main() {
 
   // The square's vertice coordinates
   float vertices[] = {
-      -0.5f,  0.5f, 0.0f, // Top-left corner
-       0.5f,  0.5f, 0.0f, // Top-right corner
+      -0.5f, 0.5f, 0.0f, // Top-left corner
+      0.5f, 0.5f, 0.0f, // Top-right corner
       -0.5f, -0.5f, 0.0f, // Bottom-left corner
-       0.5f, -0.5f, 0.0f, // Bottom-right corner
+      0.5f, -0.5f, 0.0f, // Bottom-right corner
   };
 
   // The orders to draw vertices in
@@ -132,7 +132,7 @@ int32_t main() {
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[0]);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices[0]), &indices[0][0], GL_STATIC_DRAW);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)nullptr);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) nullptr);
   glEnableVertexAttribArray(0);
   // No need to unbind the VAO since we bind to another VAO the next few lines
 
@@ -142,7 +142,7 @@ int32_t main() {
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[1]);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices[1]), &indices[1][0], GL_STATIC_DRAW);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)nullptr);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) nullptr);
   glEnableVertexAttribArray(0);
 
   while (!glfwWindowShouldClose(window)) {
