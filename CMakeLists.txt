@@ -62,3 +62,7 @@ target_link_libraries(Materials ${LIBRARIES})
 # Lighting Maps
 add_executable(LightingMaps src/LightingMaps.cpp src/Shader.hpp)
 target_link_libraries(LightingMaps ${LIBRARIES})
+
+# Light Casters (Directional)
+add_executable(LightCastersDirectional src/LightCastersDirectional.cpp src/Shader.hpp)
+target_link_libraries(LightCastersDirectional ${LIBRARIES})
