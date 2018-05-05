@@ -240,7 +240,8 @@ int32_t main() {
     containerShader.setFloat("light.quadratic", 0.032f);
     containerShader.setVec3("light.position", cameraPosition);
     containerShader.setVec3("light.direction", 0.0f, 0.0f, -1.0f);
-    containerShader.setFloat("light.cutoff", glm::cos(glm::radians(11.0f)));
+    containerShader.setFloat("light.innerCutoff", glm::cos(glm::radians(6.0f)));
+    containerShader.setFloat("light.outerCutoff", glm::cos(glm::radians(9.0f)));
     containerShader.setVec3("light.ambient", ambientColor);
     containerShader.setVec3("light.diffuse", diffuseColor);
     containerShader.setVec3("light.specular", specularColor);
