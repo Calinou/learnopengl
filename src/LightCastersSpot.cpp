@@ -28,7 +28,6 @@ void processInput(GLFWwindow *window) {
   }
 }
 
-
 uint32_t loadTexture(char const *path) {
   uint32_t textureID;
   glGenTextures(1, &textureID);
@@ -80,7 +79,7 @@ int32_t main() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  GLFWwindow *window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Light Casters (Point)",
+  GLFWwindow *window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Light Casters (Spot)",
                                         nullptr,
                                         nullptr);
   glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
@@ -103,13 +102,8 @@ int32_t main() {
   glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
   Shader containerShader = Shader(
-      "../resources/shaders/light_casters_point.vertex.glsl",
-      "../resources/shaders/light_casters_point.fragment.glsl"
-  );
-
-  Shader lightShader = Shader(
-      "../resources/shaders/basic_lighting.vertex.glsl",
-      "../resources/shaders/light_colors_bright.fragment.glsl"
+      "../resources/shaders/light_casters_spot.vertex.glsl",
+      "../resources/shaders/light_casters_spot.fragment.glsl"
   );
 
   // The cube's vertice and normal coordinates
@@ -172,9 +166,6 @@ int32_t main() {
       glm::vec3(0.0f, 0.0f, -1.0f),
   };
 
-  // The light's position
-  glm::vec3 lightPos = glm::vec3(0.0f, 0.0f, 0.0f);
-
   // Load textures
   unsigned int textureDiffuse = loadTexture("../resources/textures/container2_diffuse.png");
   unsigned int textureSpecular = loadTexture("../resources/textures/container2_specular.png");
@@ -208,14 +199,6 @@ int32_t main() {
   glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) (6 * sizeof(float)));
   glEnableVertexAttribArray(2);
 
-  // Create the light VAO
-  uint32_t lightVao;
-  glGenVertexArrays(1, &lightVao);
-  glBindVertexArray(lightVao);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) nullptr);
-  glEnableVertexAttribArray(0);
-
   // Set the projection matrix here so it's defined on application start too
   projection = glm::perspective(glm::radians(FOV), (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT,
                                 0.1f, 100.0f);
@@ -228,10 +211,7 @@ int32_t main() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Make the camera rotate in a circle around the center point
-    float radius = 3.0f;
-    double cameraX = sin(glfwGetTime() * 0.75f) * radius;
-    double cameraZ = cos(glfwGetTime() * 0.75f) * radius;
-    glm::vec3 cameraPosition = glm::vec3(cameraX, 0.0f, cameraZ);
+    glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 3.0f);
     glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
     // Use an "up" vector to determine the camera's right axis using a cross product
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -258,7 +238,9 @@ int32_t main() {
     containerShader.setFloat("light.constant", 1.0f);
     containerShader.setFloat("light.linear", 0.09f);
     containerShader.setFloat("light.quadratic", 0.032f);
-    containerShader.setVec3("light.position", lightPos);
+    containerShader.setVec3("light.position", cameraPosition);
+    containerShader.setVec3("light.direction", 0.0f, 0.0f, -1.0f);
+    containerShader.setFloat("light.cutoff", glm::cos(glm::radians(11.0f)));
     containerShader.setVec3("light.ambient", ambientColor);
     containerShader.setVec3("light.diffuse", diffuseColor);
     containerShader.setVec3("light.specular", specularColor);
@@ -275,24 +257,12 @@ int32_t main() {
       glDrawArrays(GL_TRIANGLES, 0, 36);
     }
 
-    // Draw the light cube
-    glm::mat4 model;
-    model = glm::translate(model, lightPos);
-    model = glm::scale(model, glm::vec3(0.05f));
-    lightShader.use();
-    lightShader.setMat4("model", model);
-    lightShader.setMat4("view", view);
-    lightShader.setMat4("projection", projection);
-    glBindVertexArray(lightVao);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
 
   // Clean up
   glDeleteVertexArrays(1, &vao);
-  glDeleteVertexArrays(1, &lightVao);
   glDeleteBuffers(1, &vbo);
   glfwTerminate();
 

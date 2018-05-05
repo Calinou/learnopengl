@@ -80,7 +80,8 @@ int32_t main() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  GLFWwindow *window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Light Casters (Directional)", nullptr,
+  GLFWwindow *window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Light Casters (Directional)",
+                                        nullptr,
                                         nullptr);
   glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
