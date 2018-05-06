@@ -74,3 +74,7 @@ target_link_libraries(LightCastersPoint ${LIBRARIES})
 # Light Casters Spot
 add_executable(LightCastersSpot src/LightCastersSpot.cpp src/Shader.hpp)
 target_link_libraries(LightCastersSpot ${LIBRARIES})
+
+# Multiple Lights
+add_executable(MultipleLights src/MultipleLights.cpp src/Shader.hpp)
+target_link_libraries(MultipleLights ${LIBRARIES})
