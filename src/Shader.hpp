@@ -3,7 +3,6 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <string>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -92,19 +91,19 @@ public:
 
   void use() {
     glUseProgram(this->id);
-  };
+  }
 
   void setBool(const std::string &name, bool value) const {
     glUniform1i(glGetUniformLocation(this->id, name.c_str()), (int32_t) value);
-  };
+  }
 
   void setInt(const std::string &name, int32_t value) const {
     glUniform1i(glGetUniformLocation(this->id, name.c_str()), value);
-  };
+  }
 
   void setFloat(const std::string &name, float_t value) const {
     glUniform1f(glGetUniformLocation(this->id, name.c_str()), value);
-  };
+  }
 
   void setVec2(const std::string &name, glm::vec2 &value) const {
     glUniform2fv(glGetUniformLocation(this->id, name.c_str()), 1, &value[0]);
