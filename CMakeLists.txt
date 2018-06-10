@@ -11,7 +11,7 @@ add_library(glad STATIC lib/glad/glad.c)
 include_directories(include)
 include_directories(${GLFW_INCLUDE_DIRS})
 set(LIBRARIES ${GLFW_LIBRARIES} glad glm assimp dl)
-set(HEADERS src/Shader.hpp src/Mesh.hpp)
+set(HEADERS src/Shader.hpp src/Mesh.hpp src/Model.hpp)
 
 # Hello Rectangle
 add_executable(HelloRectangle src/HelloRectangle.cpp ${HEADERS})
@@ -80,3 +80,7 @@ target_link_libraries(LightCastersSpot ${LIBRARIES})
 # Multiple Lights
 add_executable(MultipleLights src/MultipleLights.cpp ${HEADERS})
 target_link_libraries(MultipleLights ${LIBRARIES})
+
+# Model Loading
+add_executable(ModelLoading src/ModelLoading.cpp ${HEADERS})
+target_link_libraries(ModelLoading ${LIBRARIES})

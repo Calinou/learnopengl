@@ -15,6 +15,8 @@ struct Vertex {
 struct Texture {
   uint32_t id;
   std::string type;
+  // Used to compare with other textures (caching)
+  std::string path;
 };
 
 class Mesh {
